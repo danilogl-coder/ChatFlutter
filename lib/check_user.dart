@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -12,12 +14,15 @@ class CheckUser extends StatefulWidget {
 }
 
 class _CheckUserState extends State<CheckUser> {
+  StreamSubscription? _streamSubscription;
+
   @override
   //InitState é o primeiro comando que roda nessa aplicação ou nessa pagina
   void initState() {
     // TODO: implement initState
     super.initState();
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    _streamSubscription =
+        FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user == null) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: ((context) => LoginPage())));
@@ -26,6 +31,13 @@ class _CheckUserState extends State<CheckUser> {
             context, MaterialPageRoute(builder: ((context) => HomePage())));
       }
     });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _streamSubscription!.cancel();
+    super.dispose();
   }
 
   @override
