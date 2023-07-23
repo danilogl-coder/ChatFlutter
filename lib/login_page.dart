@@ -1,3 +1,4 @@
+import 'package:chatflutter/register_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: ListView(
+      padding: EdgeInsets.all(18.0),
       children: [
         TextFormField(
           controller: _emailController,
@@ -34,7 +36,13 @@ class _LoginPageState extends State<LoginPage> {
             onPressed: () {
               login();
             },
-            child: Text("Entrar"))
+            child: Text("Entrar")),
+        TextButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => RegisterPage()));
+            },
+            child: Text("Criar Conta"))
       ],
     ));
   }
