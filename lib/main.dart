@@ -1,5 +1,6 @@
 import "package:firebase_core/firebase_core.dart";
 import "package:chatflutter/firebase_options.dart";
+import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 
 import "check_user.dart";
@@ -14,6 +15,10 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(MyApp());
+  await FirebaseFirestore.instance
+      .collection("col")
+      .doc("doc")
+      .set({"texto": "daniel"});
 }
 
 class MyApp extends StatelessWidget {
@@ -21,6 +26,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: "ChatFlutter", home: CheckUser());
+    return MaterialApp(title: "ChatFlutter", home: Container());
   }
 }
