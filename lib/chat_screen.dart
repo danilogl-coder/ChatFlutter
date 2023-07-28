@@ -1,4 +1,5 @@
 import 'package:chatflutter/text_composer.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -6,6 +7,10 @@ class ChatScreen extends StatefulWidget {
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
+}
+
+void _sendMessage(String text) {
+  FirebaseFirestore.instance.collection("messeges").add({"text": text});
 }
 
 class _ChatScreenState extends State<ChatScreen> {
@@ -16,7 +21,7 @@ class _ChatScreenState extends State<ChatScreen> {
         title: Text("Ola"),
         elevation: 0,
       ),
-      body: TextComposer(),
+      body: TextComposer(sendMessage: _sendMessage),
     );
   }
 }

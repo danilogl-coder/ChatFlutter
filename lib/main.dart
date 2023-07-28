@@ -1,11 +1,9 @@
 import "package:firebase_core/firebase_core.dart";
 import "package:chatflutter/firebase_options.dart";
-import "package:cloud_firestore/cloud_firestore.dart";
+
 import "package:flutter/material.dart";
 
 import "chat_screen.dart";
-import "check_user.dart";
-import "home_page.dart";
 
 void main() async {
   // Esse comando esta garantindo inicialização correta antes do flutter iniciar
