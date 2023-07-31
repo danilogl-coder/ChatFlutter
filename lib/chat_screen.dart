@@ -10,6 +10,15 @@ class ChatScreen extends StatefulWidget {
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
+
+  void _getUser(){
+    try {
+      
+    } catch (e) {
+      
+    }
+  }
+
 }
 
 void _sendMessage({String? text, File? imgFile}) async {
