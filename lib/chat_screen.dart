@@ -43,7 +43,32 @@ class _ChatScreenState extends State<ChatScreen> {
         title: Text("Ola"),
         elevation: 0,
       ),
-      body: TextComposer(sendMessage: _sendMessage),
+      body: Column(
+        children: [
+          Expanded(child: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance.collection('messeges').snapshots(),
+            builder: (context, snapshot) {
+              switch(snapshot.connectionState){
+                case ConnectionState.none:
+                case ConnectionState.waiting:
+                return Center(
+                  child:CircularProgressIndicator(),
+                );
+                default:
+                List<DocumentSnapshot> documents = snapshot.data!.docs.reversed.toList();
+                return ListView.builder(
+                  reverse: true,
+                  itemCount: documents.length,
+                  itemBuilder: (context, index){
+                    return ListTile(
+                      title: Text(documents[index].get('text')),
+                    );
+                  },);
+              }
+            },)),
+          TextComposer(sendMessage: _sendMessage),
+        ],
+      ),
     );
   }
 }
