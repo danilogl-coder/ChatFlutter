@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class TextComposer extends StatefulWidget {
   TextComposer({super.key, required this.sendMessage});
 
-  Function(String) sendMessage;
+  final Function({String text, File imgFile}) sendMessage;
 
   @override
   State<TextComposer> createState() => _TextComposerState();
@@ -11,6 +13,7 @@ class TextComposer extends StatefulWidget {
 
 class _TextComposerState extends State<TextComposer> {
   final TextEditingController _controller = TextEditingController();
+
   bool _isComposing = false;
 
   void _reset() {
@@ -25,7 +28,18 @@ class _TextComposerState extends State<TextComposer> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Row(children: [
-        IconButton(onPressed: () {}, icon: Icon(Icons.photo_camera)),
+        IconButton(
+            onPressed: () async {
+              //Estou usando a camera com imagepicker
+              final XFile? imgFile =
+                  await ImagePicker().pickImage(source: ImageSource.camera);
+              if (imgFile == null) return;
+
+              //Conversão de XFile pra File
+              File fileImg = File(imgFile.path);
+              widget.sendMessage(imgFile: fileImg);
+            },
+            icon: Icon(Icons.photo_camera)),
         Expanded(
             child: TextField(
           controller: _controller,
@@ -37,14 +51,14 @@ class _TextComposerState extends State<TextComposer> {
             });
           },
           onSubmitted: (text) {
-            widget.sendMessage(text);
+            widget.sendMessage(text: text);
             _reset();
           },
         )),
         IconButton(
             onPressed: _isComposing
                 ? () {
-                    widget.sendMessage(_controller.text);
+                    widget.sendMessage(text: _controller.text);
                     _reset();
                   }
                 : null,
