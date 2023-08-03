@@ -7,6 +7,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'chat_message.dart';
+
 class ChatScreen extends StatefulWidget {
   ChatScreen({super.key});
 
@@ -65,7 +67,7 @@ class _ChatScreenState extends State<ChatScreen> {
     }
     Map<String, dynamic> data = {
       "uid": user!.uid,
-      "senderNamer": user.displayName,
+      "senderName": user.displayName,
       "senderPhotoURL": user.photoURL
     };
 
@@ -117,9 +119,9 @@ class _ChatScreenState extends State<ChatScreen> {
                     reverse: true,
                     itemCount: documents.length,
                     itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(documents[index].get('text')),
-                      );
+                      return ChatMessage(
+                          data: documents[index].data() as Map<String, dynamic>,
+                          mine: true);
                     },
                   );
               }
